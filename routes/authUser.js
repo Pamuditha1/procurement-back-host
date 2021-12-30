@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const env = require("../envVariables");
+//const env = require("../envVariables");
 
 const { User } = require("../modules/userModule");
 
@@ -21,7 +21,7 @@ router.post("/", async (req, res) => {
 
   const token = jwt.sign(
     { _id: user._id, type: user.type, name: user.username },
-    env.jewtKey
+    process.env.JWT || env.jewtKey
   );
 
   //response

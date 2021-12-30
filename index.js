@@ -31,13 +31,13 @@ const createDailyUsage = require("./routes/createDailyReport");
 const viewGRNs = require("./routes/getGRNs");
 const viewDUs = require("./routes/getDUs");
 
-const env = require("./envVariables");
+//const env = require("./envVariables");
 mongoose
   .connect(
     // process.env.NODE_ENV == "test"
     //   ? env.mongoDBtest
     //   :
-    process.env.MONGO_URI || env.mongoDB,
+    process.env.MONGO_URI,
     {
       useUnifiedTopology: true,
       useNewUrlParser: true,

@@ -1,43 +1,33 @@
-const express = require('express');
-const Joi = require('joi');
+const express = require("express");
 const router = express.Router();
-const bcrypt = require('bcrypt')
-const jwt = require('jsonwebtoken')
-const env = require('../envVariables')
 
-const {MSR} = require('../modules/msrModule')
+const { MSR } = require("../modules/msrModule");
 
+router.post("/", async (req, res) => {
+  console.log(req.body);
+  // res.send('Received')
 
-router.post('/', async (req, res) => {
+  // const {error} = validateCustomer(req.body);
+  // if(error) return res.status(400).send(error.details[0].message);
 
-    console.log(req.body)
-    // res.send('Received')
+  // let user = await User.findOne({ email: req.body.email});
+  // if(user) return res.status(400).send('User Already Registered.')
 
-    // const {error} = validateCustomer(req.body);
-    // if(error) return res.status(400).send(error.details[0].message);
-    
-    // let user = await User.findOne({ email: req.body.email});
-    // if(user) return res.status(400).send('User Already Registered.')
+  let newMSR = new MSR({
+    timeStamp: new Date().toISOString(),
+    msrNo: req.body.msrData.msrNo,
+    items: req.body.msr,
+    project: req.body.msrData.project,
+    createdBy: req.body.userID,
+    status: "Created",
+    prStatus: "",
+  });
 
-    let newMSR = new MSR({
-        timeStamp: new Date().toISOString(),
-        msrNo: req.body.msrData.msrNo,
-        items: req.body.msr,
-        project: req.body.msrData.project,
-        createdBy: req.body.userID,
-        status: 'Created',  
-        prStatus: ''
-    });
+  await newMSR.save();
 
-    await newMSR.save();
+  res.status(200).send("MSR Successfully Created");
 
-    res.status(200).send('MSR Successfully Created');
-
-    return
-    
+  return;
 });
 
-
-
 module.exports = router;
-
