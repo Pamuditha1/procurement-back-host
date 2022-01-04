@@ -1,59 +1,64 @@
-const express = require('express');
-const Joi = require('joi');
+const express = require("express");
 const router = express.Router();
 
-const {PO} = require('../modules/poModule')
-const {PR} = require('../modules/prModule')
-const {MSR} = require('../modules/msrModule')
+const { PO } = require("../modules/poModule");
 
-router.get('/count/created',async function(req, res) {
+router.get("/count/created", async function (req, res) {
+  const pos = await PO.find({ status: "Created" });
 
-  const pos = await PO.find({status : "Created"})
+  res.status(200).send(`${pos.length}`);
+});
 
-  // console.log(msrs.length)
-  res.status(200).send(`${pos.length}`)
-})
+router.get("/count/grn-pending", async function (req, res) {
+  const pos = await PO.find({ status: "Confirmed", grnStatus: "Pending" });
 
-router.get('/count/grn-pending',async function(req, res) {
+  res.status(200).send(`${pos.length}`);
+});
 
-  const pos = await PO.find({status : "Confirmed", grnStatus: "Pending"})
+router.get("/count/po-rejected", async function (req, res) {
+  const pos = await PO.find({ status: "Rejected" });
 
-  // console.log(msrs.length)
-  res.status(200).send(`${pos.length}`)
-})
+  res.status(200).send(`${pos.length}`);
+});
 
-router.get('/count/po-rejected',async function(req, res) {
+router.get("/:id", async function (req, res) {
+  const id = req.params.id;
 
-  const pos = await PO.find({status : "Rejected"})
-
-  // console.log(msrs.length)
-  res.status(200).send(`${pos.length}`)
-})
-
-router.get('/',async function(req, res) {
-
-    const pos = await PO.find({})
-    .sort({timeStamp: 'desc'})
-    .populate('createdBy', '-password')
-    .populate('msr')
-    .populate('pr')
+  const pos = await PO.findById(id)
+    .sort({ timeStamp: "desc" })
+    .populate("createdBy", "-password")
+    .populate("msr")
+    .populate("pr")
     .populate({
-        path : 'msr',
-        populate : {
-          path : 'project'
-        }
+      path: "msr",
+      populate: {
+        path: "project",
+      },
     })
-    .populate('se', '-password')
-    .populate('supplier', '-password')
-    .populate('approvedBy', '-password')
+    .populate("se", "-password")
+    .populate("supplier", "-password")
+    .populate("approvedBy", "-password");
 
-    // console.log(prs)
-    res.status(200).send(pos)
-    // console.log(pos)
+  res.status(200).send(pos);
+});
 
-})
+router.get("/", async function (req, res) {
+  const pos = await PO.find({})
+    .sort({ timeStamp: "desc" })
+    .populate("createdBy", "-password")
+    .populate("msr")
+    .populate("pr")
+    .populate({
+      path: "msr",
+      populate: {
+        path: "project",
+      },
+    })
+    .populate("se", "-password")
+    .populate("supplier", "-password")
+    .populate("approvedBy", "-password");
 
-
+  res.status(200).send(pos);
+});
 
 module.exports = router;
-

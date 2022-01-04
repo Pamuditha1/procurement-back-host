@@ -1,37 +1,38 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 
-const {Project} = require('../modules/projectModule')
+const { Project } = require("../modules/projectModule");
 
+router.post("/", async (req, res) => {
+  // check whether the project already added
 
-router.post('/', async (req, res) => {
+  //let project = await Project.findOne({ name: req.body.projectNo});
+  let project = await Project.find({
+    $or: [{ name: req.body.name }, { projectNo: req.body.projectNo }],
+  });
 
-    // check whether the project already added
-    
-    let project = await Project.findOne({ name: req.body.projectNo});
-    if(project) return res.status(400).send('Project Already Added.')
+  if (project.length !== 0)
+    return res.status(400).send("Project Already Added.");
 
-    // create new project object 
+  // create new project object
 
-    let newProject = new Project({
-        projectNo: req.body.projectNo,
-        name: req.body.name,
-        location: req.body.location,
-        type: req.body.type,
-        client: req.body.client,
-        clientCoNo: req.body.clientCoNo, 
-    });
+  let newProject = new Project({
+    projectNo: req.body.projectNo,
+    name: req.body.name,
+    location: req.body.location,
+    type: req.body.type,
+    client: req.body.client,
+    clientCoNo: req.body.clientCoNo,
+  });
 
-    // save project
+  // save project
 
-    await newProject.save();
+  await newProject.save();
 
-    // response
+  // response
 
-    res.status(200).send('Project Successfully Added');
-    return
-    
+  res.status(200).send("Project Successfully Added");
+  return;
 });
 
 module.exports = router;
-

@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-//const env = require('../envVariables')
 const nodemailer = require("nodemailer");
 const nodemailMailGun = require("nodemailer-mailgun-transport");
 
@@ -9,14 +8,13 @@ const { Item } = require("../modules/itemModule");
 const { User } = require("../modules/userModule");
 
 router.post("/", async (req, res) => {
-  // console.log(req.body)
-  // res.send('Received')
-
-  // const {error} = validateCustomer(req.body);
-  // if(error) return res.status(400).send(error.details[0].message);
-
-  // let user = await User.findOne({ email: req.body.email});
-  // if(user) return res.status(400).send('User Already Registered.')
+  let dur = await DailyReport.findOne({
+    reportNo: req.body.reportData.reportNo,
+  });
+  if (dur)
+    return res
+      .status(400)
+      .send(`DUR ${req.body.reportData.reportNo} Already Created`);
 
   let newdailyReport = new DailyReport({
     timeStamp: new Date().toISOString(),
@@ -67,20 +65,11 @@ let mailContent = {
   to: "",
   subject: "Item Reached Reorder Level",
   text: "",
-  // html: '<h1>You can send html formatted content using Nodemailer with attachments</h1>',
-  // attachments: [
-  //     {
-  //         filename: 'image1.png',
-  //         path: appRoot + '/profilePics/image1.png'
-  //     }
-  // ]
 };
 
 async function getSEMails() {
   const emails = await User.find({ type: "Site Engineer" }).select("email");
   emails.forEach((e) => emails.push(e.email));
-
-  console.log("EMail", emails);
 }
 function sendReorderEmails(emails, item) {
   let mailsCount = emails.length;
@@ -107,14 +96,12 @@ function sendReorderEmails(emails, item) {
         failedMails.push(e);
         if (i == mailsCount) {
           console.log(`Unable to send mail to ${e}`, error);
-          // res.status(404).send(`Unable to send mail to ${e}`)
         }
       } else {
         success++;
         i++;
         if (i == mailsCount) {
           console.log(`Email send successfully to ${e}`);
-          // res.status(200).send(`Email successfully sent to ${success} mails`)
         }
       }
     });

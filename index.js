@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const mongoose = require("mongoose");
+require("dotenv").config();
 
 var path = require("path");
 global.appRoot = path.resolve(__dirname);

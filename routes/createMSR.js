@@ -4,14 +4,11 @@ const router = express.Router();
 const { MSR } = require("../modules/msrModule");
 
 router.post("/", async (req, res) => {
-  console.log(req.body);
-  // res.send('Received')
-
-  // const {error} = validateCustomer(req.body);
-  // if(error) return res.status(400).send(error.details[0].message);
-
-  // let user = await User.findOne({ email: req.body.email});
-  // if(user) return res.status(400).send('User Already Registered.')
+  let msr = await MSR.findOne({ msrNo: req.body.msrData.msrNo });
+  if (msr)
+    return res
+      .status(400)
+      .send(`MSR ${req.body.msrData.msrNo} Already Created`);
 
   let newMSR = new MSR({
     timeStamp: new Date().toISOString(),

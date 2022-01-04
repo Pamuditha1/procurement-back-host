@@ -1,43 +1,70 @@
-const express = require('express');
-const Joi = require('joi');
+const express = require("express");
 const router = express.Router();
 
-const {GRN} = require('../modules/grnModule')
+const { GRN } = require("../modules/grnModule");
 
-router.get('/',async function(req, res) {
+router.get("/:id", async function (req, res) {
+  const id = req.params.id;
 
-    const grns = await GRN.find({})
-    .sort({timeStamp: 'desc'})
-    .populate('createdBy', '-password')
-    .populate('msr')
-    .populate('pr')
-    .populate('po')
+  const grns = await GRN.findById(id)
+    .sort({ timeStamp: "desc" })
+    .populate("createdBy", "-password")
+    .populate("msr")
+    .populate("pr")
+    .populate("po")
     .populate({
-        path : 'msr',
-        populate : {
-          path : 'project'
-        }
+      path: "msr",
+      populate: {
+        path: "project",
+      },
     })
     .populate({
-        path : 'po',
-        populate : {
-          path : 'supplier'
-        }
+      path: "po",
+      populate: {
+        path: "supplier",
+      },
     })
     .populate({
-        path : 'po',
-        populate : {
-          path : 'se'
-        }
+      path: "po",
+      populate: {
+        path: "se",
+      },
+    });
+
+  // console.log(prs)
+  res.status(200).send(grns);
+  // console.log(pos)
+});
+
+router.get("/", async function (req, res) {
+  const grns = await GRN.find({})
+    .sort({ timeStamp: "desc" })
+    .populate("createdBy", "-password")
+    .populate("msr")
+    .populate("pr")
+    .populate("po")
+    .populate({
+      path: "msr",
+      populate: {
+        path: "project",
+      },
     })
+    .populate({
+      path: "po",
+      populate: {
+        path: "supplier",
+      },
+    })
+    .populate({
+      path: "po",
+      populate: {
+        path: "se",
+      },
+    });
 
-    // console.log(prs)
-    res.status(200).send(grns)
-    // console.log(pos)
-
-})
-
-
+  // console.log(prs)
+  res.status(200).send(grns);
+  // console.log(pos)
+});
 
 module.exports = router;
-
