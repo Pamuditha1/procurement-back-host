@@ -1,12 +1,9 @@
-const express = require("express");
-const router = express.Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-//const env = require("../envVariables");
 
 const { User } = require("../modules/userModule");
 
-router.post("/", async (req, res) => {
+exports.loginUser = async (req, res) => {
   // check whether the user is a registered user
 
   let user = await User.findOne({ email: req.body.email });
@@ -32,6 +29,4 @@ router.post("/", async (req, res) => {
     type: user.type,
   });
   return;
-});
-
-module.exports = router;
+};

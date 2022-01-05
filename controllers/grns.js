@@ -1,13 +1,11 @@
-const express = require("express");
-const router = express.Router();
-
 const { PO } = require("../modules/poModule");
 const { GRN } = require("../modules/grnModule");
 const { User } = require("../modules/userModule");
 const { Item } = require("../modules/itemModule");
 const { Project } = require("../modules/projectModule");
+const ObjectId = require("mongoose").Types.ObjectId;
 
-router.post("/", async (req, res) => {
+exports.createGRN = async (req, res) => {
   let grn = await GRN.findOne({
     grnNo: req.body.grnNo,
   });
@@ -91,6 +89,64 @@ router.post("/", async (req, res) => {
   if (result) res.status(200).send("GRN Successfully Created");
 
   return;
-});
+};
 
-module.exports = router;
+exports.getAllGRNs = async function (req, res) {
+  const grns = await GRN.find({})
+    .sort({ timeStamp: "desc" })
+    .populate("createdBy", "-password")
+    .populate("msr")
+    .populate("pr")
+    .populate("po")
+    .populate({
+      path: "msr",
+      populate: {
+        path: "project",
+      },
+    })
+    .populate({
+      path: "po",
+      populate: {
+        path: "supplier",
+      },
+    })
+    .populate({
+      path: "po",
+      populate: {
+        path: "se",
+      },
+    });
+
+  res.status(200).send(grns);
+};
+
+exports.getOneGRN = async function (req, res) {
+  const id = req.params.id;
+
+  const grns = await GRN.findById(id)
+    .sort({ timeStamp: "desc" })
+    .populate("createdBy", "-password")
+    .populate("msr")
+    .populate("pr")
+    .populate("po")
+    .populate({
+      path: "msr",
+      populate: {
+        path: "project",
+      },
+    })
+    .populate({
+      path: "po",
+      populate: {
+        path: "supplier",
+      },
+    })
+    .populate({
+      path: "po",
+      populate: {
+        path: "se",
+      },
+    });
+
+  res.status(200).send(grns);
+};
