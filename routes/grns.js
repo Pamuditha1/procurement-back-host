@@ -1,11 +1,12 @@
 const express = require("express");
 const router = express.Router();
 const { createGRN, getAllGRNs, getOneGRN } = require("../controllers/grns");
+const auth = require("../middleware/auth");
 
-router.post("/", createGRN);
+router.post("/", auth, createGRN);
 
-router.get("/:id", getOneGRN);
+router.get("/:id", auth, getOneGRN);
 
-router.get("/", getAllGRNs);
+router.get("/", auth, getAllGRNs);
 
 module.exports = router;

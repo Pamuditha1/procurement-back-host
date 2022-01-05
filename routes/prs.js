@@ -7,17 +7,18 @@ const {
   getPOPendingCount,
   getCreatedCount,
 } = require("../controllers/prs");
+const auth = require("../middleware/auth");
 
-router.post("/", createPR);
+router.post("/", auth, createPR);
 
-router.get("/:id", getOnePR);
+router.get("/:id", auth, getOnePR);
 
-router.get("/", getAllPRS);
+router.get("/", auth, getAllPRS);
 
-router.get("/count", getCreatedCount);
+router.get("/count", auth, getCreatedCount);
 
-router.get("/count/created", getCreatedCount);
+router.get("/count/created", auth, getCreatedCount);
 
-router.get("/count/po-pending", getPOPendingCount);
+router.get("/count/po-pending", auth, getPOPendingCount);
 
 module.exports = router;

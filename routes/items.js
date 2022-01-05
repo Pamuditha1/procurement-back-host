@@ -6,13 +6,14 @@ const {
   getOneItem,
   updateItem,
 } = require("../controllers/items");
+const auth = require("../middleware/auth");
 
-router.post("/", addItem);
+router.post("/", (req, res, next) => auth("Admin", req, res, next), addItem);
 
-router.get("/:id", getOneItem);
+router.get("/:id", auth, getOneItem);
 
-router.get("/", getAllItems);
+router.get("/", auth, getAllItems);
 
-router.put("/", updateItem);
+router.put("/", (req, res, next) => auth("Admin", req, res, next), updateItem);
 
 module.exports = router;

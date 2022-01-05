@@ -11,23 +11,24 @@ const {
   getRejectedCount,
   getPRPendingCount,
 } = require("../controllers/msrs");
+const auth = require("../middleware/auth");
 
-router.post("/", createMSR);
+router.post("/", auth, createMSR);
 
-router.get("/:id", getOneMSR);
+router.get("/:id", auth, getOneMSR);
 
-router.get("/", getAllMSRS);
+router.get("/", auth, getAllMSRS);
 
-router.get("/count", getCreatedCount);
+router.get("/count", auth, getCreatedCount);
 
-router.get("/count/approved", getApprovedCount);
+router.get("/count/approved", auth, getApprovedCount);
 
-router.get("/count/rejected", getRejectedCount);
+router.get("/count/rejected", auth, getRejectedCount);
 
-router.get("/count/pr-pending", getPRPendingCount);
+router.get("/count/pr-pending", auth, getPRPendingCount);
 
-router.put("/", updateMSR);
+router.put("/", auth, updateMSR);
 
-router.put("/recreated", recreateMSR);
+router.put("/recreated", auth, recreateMSR);
 
 module.exports = router;

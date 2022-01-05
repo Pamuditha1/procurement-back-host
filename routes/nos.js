@@ -7,15 +7,16 @@ const {
   generateGRNno,
   generateDURno,
 } = require("../controllers/nos");
+const auth = require("../middleware/auth");
 
-router.get("/msr", generateMSRno);
+router.get("/msr", auth, generateMSRno);
 
-router.get("/pr", generatePRno);
+router.get("/pr", auth, generatePRno);
 
-router.get("/po", generatePOno);
+router.get("/po", auth, generatePOno);
 
-router.get("/grn", generateGRNno);
+router.get("/grn", auth, generateGRNno);
 
-router.get("/usage", generateDURno);
+router.get("/usage", auth, generateDURno);
 
 module.exports = router;

@@ -9,19 +9,20 @@ const {
   getRejectedCount,
   updatePO,
 } = require("../controllers/pos");
+const auth = require("../middleware/auth");
 
-router.post("/", createPO);
+router.post("/", auth, createPO);
 
-router.get("/:id", getOnePO);
+router.get("/:id", auth, getOnePO);
 
-router.get("/", getAllPOS);
+router.get("/", auth, getAllPOS);
 
-router.get("/count/created", getCreatedCount);
+router.get("/count/created", auth, getCreatedCount);
 
-router.get("/count/grn-pending", getGRNPendingCount);
+router.get("/count/grn-pending", auth, getGRNPendingCount);
 
-router.get("/count/po-rejected", getRejectedCount);
+router.get("/count/po-rejected", auth, getRejectedCount);
 
-router.put("/", updatePO);
+router.put("/", auth, updatePO);
 
 module.exports = router;
