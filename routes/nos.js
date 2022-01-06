@@ -9,14 +9,14 @@ const {
 } = require("../controllers/nos");
 const auth = require("../middleware/auth");
 
-router.get("/msr", auth, generateMSRno);
+router.get("/msr", (req, res, next) => auth(req, res, next), generateMSRno);
 
-router.get("/pr", auth, generatePRno);
+router.get("/pr", (req, res, next) => auth(req, res, next), generatePRno);
 
-router.get("/po", auth, generatePOno);
+router.get("/po", (req, res, next) => auth(req, res, next), generatePOno);
 
-router.get("/grn", auth, generateGRNno);
+router.get("/grn", (req, res, next) => auth(req, res, next), generateGRNno);
 
-router.get("/usage", auth, generateDURno);
+router.get("/usage", (req, res, next) => auth(req, res, next), generateDURno);
 
 module.exports = router;

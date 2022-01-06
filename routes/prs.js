@@ -9,16 +9,24 @@ const {
 } = require("../controllers/prs");
 const auth = require("../middleware/auth");
 
-router.post("/", auth, createPR);
+router.post("/", (req, res, next) => auth(req, res, next), createPR);
 
-router.get("/:id", auth, getOnePR);
+router.get("/:id", (req, res, next) => auth(req, res, next), getOnePR);
 
-router.get("/", auth, getAllPRS);
+router.get("/", (req, res, next) => auth(req, res, next), getAllPRS);
 
-router.get("/count", auth, getCreatedCount);
+router.get("/count", (req, res, next) => auth(req, res, next), getCreatedCount);
 
-router.get("/count/created", auth, getCreatedCount);
+router.get(
+  "/count/created",
+  (req, res, next) => auth(req, res, next),
+  getCreatedCount
+);
 
-router.get("/count/po-pending", auth, getPOPendingCount);
+router.get(
+  "/count/po-pending",
+  (req, res, next) => auth(req, res, next),
+  getPOPendingCount
+);
 
 module.exports = router;

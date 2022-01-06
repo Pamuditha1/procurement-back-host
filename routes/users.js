@@ -9,17 +9,17 @@ const {
 } = require("../controllers/users");
 const auth = require("../middleware/auth");
 
-router.post("/", addUser);
+router.post("/", (req, res, next) => auth(req, res, next, "Admin"), addUser);
 
-router.get("/:id", auth, getOneUser);
+router.get("/:id", (req, res, next) => auth(req, res, next), getOneUser);
 
-router.get("/", auth, getAllUsers);
+router.get("/", (req, res, next) => auth(req, res, next), getAllUsers);
 
-router.put("/", (req, res, next) => auth("Admin", req, res, next), updateUser);
+router.put("/", (req, res, next) => auth(req, res, next, "Admin"), updateUser);
 
 router.delete(
   "/remove/:id",
-  (req, res, next) => auth("Admin", req, res, next),
+  (req, res, next) => auth(req, res, next, "Admin"),
   removeUser
 );
 

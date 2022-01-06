@@ -2,6 +2,8 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const mongoose = require("mongoose");
+const helmet = require("helmet");
+const compression = require("compression");
 require("dotenv").config();
 
 var path = require("path");
@@ -34,6 +36,8 @@ mongoose
 
 app.use(cors());
 app.use(express.json());
+app.use(helmet());
+app.use(compression());
 
 app.use("/api/login", auth);
 app.use("/api/add-item", items);

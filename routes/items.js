@@ -8,12 +8,12 @@ const {
 } = require("../controllers/items");
 const auth = require("../middleware/auth");
 
-router.post("/", (req, res, next) => auth("Admin", req, res, next), addItem);
+router.post("/", (req, res, next) => auth(req, res, next, "Admin"), addItem);
 
-router.get("/:id", auth, getOneItem);
+router.get("/:id", (req, res, next) => auth(req, res, next), getOneItem);
 
 router.get("/", auth, getAllItems);
 
-router.put("/", (req, res, next) => auth("Admin", req, res, next), updateItem);
+router.put("/", (req, res, next) => auth(req, res, next, "Admin"), updateItem);
 
 module.exports = router;
