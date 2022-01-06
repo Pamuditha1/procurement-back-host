@@ -4,29 +4,35 @@ const jwt = require("jsonwebtoken");
 const { User } = require("../modules/userModule");
 
 exports.loginUser = async (req, res) => {
-  // check whether the user is a registered user
+  try {
+    // check whether the user is a registered user
 
-  let user = await User.findOne({ email: req.body.email });
-  if (!user) return res.status(400).send("Invalid Email.");
+    let user = await User.findOne({ email: req.body.email });
+    if (!user) return res.status(400).send("Invalid Email.");
 
-  //check the password
+    //check the password
 
-  const validPassword = await bcrypt.compare(req.body.password, user.password);
-  if (!validPassword) return res.status(400).send("Invalid Password.");
+    const validPassword = await bcrypt.compare(
+      req.body.password,
+      user.password
+    );
+    if (!validPassword) return res.status(400).send("Invalid Password.");
 
-  //generate the token
+    //generate the token
 
-  const token = jwt.sign(
-    { _id: user._id, type: user.type, name: user.username },
-    process.env.JWT || env.jewtKey
-  );
+    const token = jwt.sign(
+      { _id: user._id, type: user.type, name: user.username },
+      process.env.JWT || env.jewtKey
+    );
 
-  //response
-
-  res.status(200).json({
-    jwt: token,
-    msg: "Logged In Successfully",
-    type: user.type,
-  });
-  return;
+    res.status(200).json({
+      jwt: token,
+      msg: "Logged In Successfully",
+      type: user.type,
+    });
+    return;
+  } catch (error) {
+    console.error("Error (Login) : ", error);
+    res.status(500).send(error);
+  }
 };
