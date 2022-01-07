@@ -15,11 +15,11 @@ const auth = require("../middleware/auth");
 
 router.post("/", (req, res, next) => auth(req, res, next), createMSR);
 
+router.get("/count", (req, res, next) => auth(req, res, next), getCreatedCount);
+
 router.get("/:id", (req, res, next) => auth(req, res, next), getOneMSR);
 
 router.get("/", (req, res, next) => auth(req, res, next), getAllMSRS);
-
-router.get("/count", (req, res, next) => auth(req, res, next), getCreatedCount);
 
 router.get(
   "/count/approved",
