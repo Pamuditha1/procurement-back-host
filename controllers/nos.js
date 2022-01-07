@@ -8,7 +8,7 @@ exports.generateMSRno = async function (req, res) {
   try {
     const msr = await MSR.find({}).sort({ timeStamp: "desc" }).limit(1);
 
-    let newNo = 0;
+    let newNo = 1;
     if (msr.length > 0) {
       newNo = parseInt(msr[0].msrNo) + 1;
       res.status(200).send(newNo.toString());
@@ -25,7 +25,7 @@ exports.generatePRno = async function (req, res) {
   try {
     const pr = await PR.find({}).sort({ timeStamp: "desc" }).limit(1);
 
-    let newNo = 0;
+    let newNo = 1;
     if (pr.length > 0) {
       newNo = parseInt(pr[0].prNo) + 1;
       res.status(200).send(newNo.toString());
@@ -42,7 +42,7 @@ exports.generatePOno = async function (req, res) {
   try {
     const po = await PO.find({}).sort({ timeStamp: "desc" }).limit(1);
 
-    let newNo = 0;
+    let newNo = 1;
     if (po.length > 0) {
       newNo = parseInt(po[0].poNo) + 1;
       res.status(200).send(newNo.toString());
@@ -59,7 +59,7 @@ exports.generateGRNno = async function (req, res) {
   try {
     const grn = await GRN.find({}).sort({ timeStamp: "desc" }).limit(1);
 
-    let newNo = 0;
+    let newNo = 1;
     if (grn.length > 0) {
       newNo = parseInt(grn[0].grnNo) + 1;
       res.status(200).send(newNo.toString());
@@ -78,7 +78,7 @@ exports.generateDURno = async function (req, res) {
       .sort({ timeStamp: "desc" })
       .limit(1);
 
-    let newNo = 0;
+    let newNo = 1;
     if (report.length > 0) {
       newNo = parseInt(report[0].reportNo) + 1;
       res.status(200).send(newNo.toString());
