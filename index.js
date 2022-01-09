@@ -64,7 +64,7 @@ app.use("/api/suppliers", suppliers);
 app.use("/api/get-no", nos);
 app.use("/api/site-engineers", ses);
 
-app.use("/api", () => {
+app.get("/api", () => {
   res.send("Success Constructions PMS API");
 });
 
