@@ -52,5 +52,5 @@ jobs:
         with:
           app-name: 'successconstructionspms'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_EACCCADA2D624A5BB28609EABCE22109 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_FB5A07AC388840B385BB2BB6922C2D62 }}
           package: .
