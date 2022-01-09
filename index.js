@@ -64,6 +64,10 @@ app.use("/api/suppliers", suppliers);
 app.use("/api/get-no", nos);
 app.use("/api/site-engineers", ses);
 
+app.use("/api", () => {
+  res.send("Success Constructions PMS API");
+});
+
 const defaultPort = process.env.NODE_ENV == "test" ? 3005 : 3003;
 const port = process.env.PORT || defaultPort;
 

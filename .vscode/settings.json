@@ -1,0 +1,5 @@
+{
+  "appService.defaultWebAppToDeploy": "/subscriptions/56682c36-1a6c-4c9e-a05c-e877287b4b2a/resourceGroups/webapp/providers/Microsoft.Web/sites/successconstructionspms",
+  "appService.deploySubpath": ".",
+  "appService.showBuildDuringDeployPrompt": false
+}
