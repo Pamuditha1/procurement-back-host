@@ -22,7 +22,7 @@ exports.loginUser = async (req, res) => {
 
     const token = jwt.sign(
       { _id: user._id, type: user.type, name: user.username },
-      process.env.JWT || env.jewtKey
+      process.env.JWT
     );
 
     res.status(200).json({

@@ -22,8 +22,13 @@ const suppliers = require("./routes/suppliers");
 const nos = require("./routes/nos");
 const ses = require("./routes/ses");
 
+const DB_URI =
+  process.env.NODE_ENV == "test"
+    ? process.env.MONGO_URI_TEST
+    : process.env.MONGO_URI;
+
 mongoose
-  .connect(process.env.MONGO_URI, {
+  .connect(DB_URI, {
     useUnifiedTopology: true,
     useNewUrlParser: true,
   })
